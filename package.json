@@ -1,0 +1,23 @@
+{
+  "name": "powerthesaurus-api",
+  "version": "1.0.0",
+  "description": "Look up English synonyms using powerthesaurus.com",
+  "main": "index.js",
+  "repository": "https://github.com/zeke/powerthesaurus-api",
+  "author": "zeke",
+  "license": "MIT",
+  "dependencies": {
+    "cheerio": "^0.22.0",
+    "got": "^6.6.1",
+    "pify": "^2.3.0",
+    "random-fake-useragent": "^0.1.0"
+  },
+  "devDependencies": {
+    "standard": "^8.5.0",
+    "tap-spec": "^4.1.1",
+    "tape": "^4.6.2"
+  },
+  "scripts": {
+    "test": "tape test/*.js | tap-spec && standard"
+  }
+}

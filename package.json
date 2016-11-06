@@ -1,6 +1,6 @@
 {
   "name": "powerthesaurus-api",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "description": "Look up English synonyms using powerthesaurus.org",
   "main": "index.js",
   "repository": "https://github.com/zeke/powerthesaurus-api",

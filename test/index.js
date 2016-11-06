@@ -6,7 +6,6 @@ test('powerthesaurus', function (t) {
 
   thesaurus('car')
     .then(results => {
-      console.log(results)
       t.ok(results.length > 10, 'returns several results')
 
       results.forEach(result => {

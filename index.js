@@ -11,7 +11,6 @@ function lookup (word, callback) {
     hostname: 'www.powerthesaurus.org',
     pathname: word
   })
-  console.log(url)
 
   const requestOpts = {
     headers: {'user-agent': randomAgent()}

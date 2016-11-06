@@ -1,6 +1,7 @@
 # powerthesaurus-api
 
-Look up English synonyms using [powerthesaurus.com](https://powerthesaurus.com).
+Look up English synonyms using [powerthesaurus.org](https://powerthesaurus.org),
+a crowdsourced corpus of nearly 20 million synonyms.
 
 ## Installation
 

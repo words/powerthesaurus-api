@@ -1,5 +1,4 @@
-var https = require('https')
-var concat = require('concat-stream')
+var fetch = require('node-fetch')
 var unified = require('unified')
 var parse = require('rehype-parse')
 var $ = require('hast-util-select')
@@ -55,21 +54,18 @@ function lookup(word, kind, callback) {
   executor(null, callback)
 
   function executor(resolve, reject) {
-    https
-      .request(
-        base + '/' + encodeURIComponent(word) + '/' + kind,
-        {headers: {'user-agent': randomAgent()}},
-        onrequest
-      )
-      .end()
+    fetch(base + '/' + encodeURIComponent(word) + '/' + kind, {
+      headers: {'user-agent': randomAgent()}
+    })
+      .then(onresponse)
+      .then(onbody, done)
 
-    function onrequest(res) {
-      res.on('error', done)
-      res.pipe(concat(onconcat))
+    function onresponse(res) {
+      return res.text()
     }
 
-    function onconcat(buf) {
-      var tree = processor.parse(buf)
+    function onbody(body) {
+      var tree = processor.parse(body)
 
       done(null, $.selectAll('.pt-thesaurus-card', tree).map(each))
     }

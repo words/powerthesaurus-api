@@ -43,10 +43,6 @@ function lookup(word, kind, callback) {
     kind = 'synonyms'
   }
 
-  if (!kinds.includes(kind)) {
-    throw new Error('Unexpected invalid kind `' + kind + '`')
-  }
-
   if (!callback) {
     return new Promise(executor)
   }
@@ -54,6 +50,10 @@ function lookup(word, kind, callback) {
   executor(null, callback)
 
   function executor(resolve, reject) {
+    if (!kinds.includes(kind)) {
+      return done(new Error('Unexpected invalid kind `' + kind + '`'))
+    }
+
     fetch(base + '/' + encodeURIComponent(word) + '/' + kind, {
       headers: {'user-agent': randomAgent()}
     })

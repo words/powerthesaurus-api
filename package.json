@@ -7,17 +7,32 @@
   "author": "zeke",
   "license": "MIT",
   "dependencies": {
-    "cheerio": "^0.22.0",
-    "got": "^6.6.1",
-    "pify": "^2.3.0",
-    "random-fake-useragent": "^0.1.0"
+    "concat-stream": "^2.0.0",
+    "hast-util-select": "^3.0.0",
+    "hast-util-to-string": "^1.0.0",
+    "random-fake-useragent": "^0.1.0",
+    "rehype-parse": "^6.0.0",
+    "unified": "^8.0.0"
   },
   "devDependencies": {
-    "standard": "^8.5.0",
-    "tap-spec": "^4.1.1",
-    "tape": "^4.6.2"
+    "prettier": "^1.0.0",
+    "tape": "^4.0.0",
+    "xo": "^0.25.0"
   },
   "scripts": {
-    "test": "tape test/*.js | tap-spec && standard"
+    "format": "prettier --write \"**/*.js\" && xo --fix",
+    "test": "node test"
+  },
+  "prettier": {
+    "tabWidth": 2,
+    "useTabs": false,
+    "singleQuote": true,
+    "bracketSpacing": false,
+    "semi": false,
+    "trailingComma": "none"
+  },
+  "xo": {
+    "prettier": true,
+    "esnext": false
   }
 }

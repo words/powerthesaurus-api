@@ -66,11 +66,11 @@ function lookup(word, kind, callback) {
 
     function onbody(body) {
       var tree = processor.parse(body)
-
       done(null, $.selectAll('.pt-thesaurus-card', tree).map(each))
     }
 
     function done(err, res) {
+      /* istanbul ignore if - site never seems to fail */
       if (err) {
         reject(err)
       } else if (resolve) {
@@ -95,6 +95,7 @@ function lookup(word, kind, callback) {
   function part(node) {
     var value = serialize(node)
 
+    /* istanbul ignore if - this may happen in the future if they add more values */
     if (!own.call(shortPartToPart, value)) {
       console.warn('powerthesaurus: could not map `%s` to part', value)
       return

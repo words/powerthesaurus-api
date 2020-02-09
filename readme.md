@@ -1,76 +1,133 @@
 # powerthesaurus-api
 
-Look up English synonyms using [powerthesaurus.org](https://powerthesaurus.org),
-a crowdsourced corpus of nearly 20 million synonyms.
+[![Build][build-badge]][build]
+[![Coverage][coverage-badge]][coverage]
+[![Downloads][downloads-badge]][downloads]
+[![Size][size-badge]][size]
 
-## Installation
+Look up English synonyms, antonyms, and more using
+[`powerthesaurus.org`][powerthesaurus]: a crowdsourced corpus of nearly 80
+million synonyms and 4 million antonyms.
+
+## Install
+
+[npm][]:
 
 ```sh
-npm install powerthesaurus-api --save
+npm install powerthesaurus-api
 ```
 
-## Usage
+## Use
 
 ```js
-const thesaurus = require('powerthesaurus-api')
+var thesaurus = require('powerthesaurus-api')
 
-thesaurus('car')
-  .then(results => {
-    console.log(results)
-  })
-  .catch(error => {
-    console.error(error)
-  })
+// Callbacks:
+thesaurus('car', function(err, res) {
+  if (err) throw err
+  console.log(res)
 })
+
+// Promises and given a kind:
+thesaurus('blue', 'antonyms').then(
+  res => {
+    console.log(res)
+  },
+  err => {
+    throw err
+  }
+)
 ```
 
-Returns a result set like this:
+Yields:
 
 ```js
 [
-  { word: 'vehicle', upVotes: 26, downVotes: 3 },
-  { word: 'motorcar', upVotes: 23, downVotes: 3 },
-  { word: 'automobile', upVotes: 24, downVotes: 6 },
-  { word: 'machine', upVotes: 17, downVotes: 1 },
-  { word: 'auto', upVotes: 21, downVotes: 6 },
-  { word: 'truck', upVotes: 14, downVotes: 5 },
-  { word: 'bus', upVotes: 11, downVotes: 3 },
-  { word: 'gondola', upVotes: 10, downVotes: 2 },
-  { word: 'motor', upVotes: 8, downVotes: 0 },
-  { word: 'coach', upVotes: 10, downVotes: 3 },
-  { word: 'jalopy', upVotes: 9, downVotes: 2 },
-  { word: 'buggy', upVotes: 8, downVotes: 1 },
-  { word: 'wagon', upVotes: 8, downVotes: 1 },
-  { word: 'coupe', upVotes: 7, downVotes: 0 },
-  { word: 'limousine', upVotes: 7, downVotes: 0 },
-  { word: 'sedan', upVotes: 7, downVotes: 0 },
-  { word: 'van', upVotes: 7, downVotes: 0 },
-  { word: 'carriage', upVotes: 7, downVotes: 1 },
-  { word: 'railcar', upVotes: 6, downVotes: 0 },
-  { word: 'railway car', upVotes: 6, downVotes: 0 }
+  {word: 'vehicle', rating: 35, parts: ['noun'], topics: ['carriage', 'transport']},
+  {word: 'motorcar', rating: 30, parts: ['noun', 'adjective'], topics: ['vehicle']},
+  {word: 'automobile', rating: 26, parts: ['noun', 'adjective'], topics: ['vehicle', 'transport']},
+  {word: 'auto', rating: 20, parts: ['noun', 'adjective'], topics: ['transport', 'technology']},
+  {word: 'railcar', rating: 20, parts: ['noun'], topics: []},
+  // …and 45 more entries
 ]
+[
+  {word: 'happy', rating: 27, parts: ['adjective'], topics: ['characteristic', 'decency']},
+  {word: 'lighthearted', rating: 19, parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'joyful', rating: 18, parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'upbeat', rating: 18, parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'joyous', rating: 12, parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  // …and 45 more entries
+]
+
 ```
 
-## Tests
+## API
 
-```sh
-npm install
-npm test
-```
+### `thesaurus(word[, kind][, callback])`
 
-## Dependencies
+Look up words relating to `word`.
 
-- [cheerio](https://github.com/cheeriojs/cheerio): Tiny, fast, and elegant implementation of core jQuery designed specifically for the server
-- [got](http://ghub.io/got): Simplified HTTP requests
-- [pify](http://ghub.io/pify): Promisify a callback-style function
-- [random-fake-useragent](https://github.com/koppthe/random-fake-useragent): Random useragent base on browser statistics from a real world database
+###### Parameters
 
-## Dev Dependencies
+*   `word` (`string`)
+    — Word to look up
+*   `kind` (`Kind`, default: `'synonyms'`)
+    — Type of relation between looked up word and related words, can be:
+    `'synonyms'`, `'antonyms'`, `'related'`, `'narrower'`, `'broader'`,
+    `'sound_like'`, `'similar'`, or `'rhymes'`
+*   `callback` (`Function`, optional)
+    — Callback called when done.
+    Returns a promise when not given
 
-- [standard](https://github.com/feross/standard): JavaScript Standard Style
-- [tap-spec](https://github.com/scottcorgan/tap-spec): Formatted TAP output like Mocha&#39;s spec reporter
-- [tape](https://github.com/substack/tape): tap-producing test harness for node and browsers
+###### Returns
+
+When given a callback, returns nothing and calls `callback` with either an
+error or a [list of entries][entry].
+When not given a callback, returns a `Promise`, that is either resolved with a
+[list of entries][entry] or rejected with an error.
+Up to 50 entries are found by `powerthesaurus-api`
+
+### `Entry`
+
+Object representing a related word, with the following fields:
+
+*   `word` (`string`)
+*   `rating` (`number`) — Crowdsourced integer representing whether this entry
+    does indeed relate to the looked up word
+*   `parts` (`string[]`) — List of parts of speech of this entry.
+    Can include `'adjective'`, `'adverb'`, `'conjunction'`, `'expression'`,
+    `'idiom'`, `'interjection'`, `'noun'`, `'phrasal verb'`, `'pronoun'`,
+    `'preposition'`, and/or `'verb'`
+*   `topics` (`string[]`) — List of topics of this entry
 
 ## License
 
-MIT
+[MIT][license] © [Titus Wormer][author]
+
+<!-- Definitions -->
+
+[build-badge]: https://img.shields.io/travis/words/powerthesaurus-api.svg
+
+[build]: https://travis-ci.org/words/powerthesaurus-api
+
+[coverage-badge]: https://img.shields.io/codecov/c/github/words/powerthesaurus-api.svg
+
+[coverage]: https://codecov.io/github/words/powerthesaurus-api
+
+[downloads-badge]: https://img.shields.io/npm/dm/powerthesaurus-api.svg
+
+[downloads]: https://www.npmjs.com/package/powerthesaurus-api
+
+[size-badge]: https://img.shields.io/bundlephobia/minzip/powerthesaurus-api.svg
+
+[size]: https://bundlephobia.com/result?p=powerthesaurus-api
+
+[license]: license
+
+[author]: https://wooorm.com
+
+[npm]: https://www.npmjs.com
+
+[powerthesaurus]: https://www.powerthesaurus.org
+
+[entry]: #entry

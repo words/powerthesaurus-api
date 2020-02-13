@@ -24,7 +24,7 @@
   ],
   "main": "index.js",
   "files": [
-    "index.json"
+    "index.js"
   ],
   "dependencies": {
     "hast-util-select": "^3.0.0",

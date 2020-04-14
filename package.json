@@ -30,7 +30,6 @@
     "hast-util-select": "^3.0.0",
     "hast-util-to-string": "^1.0.0",
     "node-fetch": "^2.0.0",
-    "random-fake-useragent": "^0.1.0",
     "rehype-parse": "^6.0.0",
     "unified": "^8.0.0"
   },

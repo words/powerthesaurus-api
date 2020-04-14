@@ -60,8 +60,8 @@ function lookup(word, kind, callback) {
       .then(onresponse)
       .then(onbody, done)
 
-    function onresponse(res) {
-      return res.text()
+    function onresponse(response) {
+      return response.text()
     }
 
     function onbody(body) {
@@ -69,14 +69,14 @@ function lookup(word, kind, callback) {
       done(null, $.selectAll('.pt-thesaurus-card', tree).map(each))
     }
 
-    function done(err, res) {
+    function done(err, results) {
       /* istanbul ignore if - site never seems to fail */
       if (err) {
         reject(err)
       } else if (resolve) {
-        resolve(res)
+        resolve(results)
       } else {
-        callback(null, res)
+        callback(null, results)
       }
     }
   }
@@ -85,9 +85,7 @@ function lookup(word, kind, callback) {
     var word = serialize($.select('.link--term', node))
     var rating = serialize($.select('.pt-list-rating__counter', node))
     var topics = $.selectAll('.link--topic', node).map(serialize)
-    var parts = $.selectAll('.link--part', node)
-      .map(part)
-      .filter(Boolean)
+    var parts = $.selectAll('.link--part', node).map(part).filter(Boolean)
 
     return {word, rating: parseInt(rating, 10), parts, topics}
   }

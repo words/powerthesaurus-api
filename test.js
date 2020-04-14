@@ -2,10 +2,10 @@ var assert = require('assert')
 var test = require('tape')
 var thesaurus = require('.')
 
-test('powerthesaurus', function(t) {
+test('powerthesaurus', function (t) {
   t.ok(typeof thesaurus === 'function', 'is a function')
 
-  t.test('promises', function(t) {
+  t.test('promises', function (t) {
     t.plan(1)
 
     thesaurus('car')
@@ -13,16 +13,16 @@ test('powerthesaurus', function(t) {
       .catch(t.ifError)
   })
 
-  t.test('callbacks', function(t) {
+  t.test('callbacks', function (t) {
     t.plan(2)
 
-    thesaurus('blue', function(err, res) {
+    thesaurus('blue', function (err, results) {
       t.ifError(err, 'should not give an error')
-      checkResults(t, 'should have valid results')(res)
+      checkResults(t, 'should have valid results')(results)
     })
   })
 
-  t.test('kind', function(t) {
+  t.test('kind', function (t) {
     t.plan(1)
 
     thesaurus('great', 'antonyms')
@@ -30,10 +30,10 @@ test('powerthesaurus', function(t) {
       .catch(t.ifError)
   })
 
-  t.test('invalid kind', function(t) {
+  t.test('invalid kind', function (t) {
     t.plan(1)
 
-    thesaurus('value', 'kind').catch(function(error) {
+    thesaurus('value', 'kind').catch(function (error) {
       t.ok(/Unexpected invalid kind `kind`/.test(error), 'should pass an error')
     })
   })
@@ -42,10 +42,10 @@ test('powerthesaurus', function(t) {
 function checkResults(t, message) {
   return check
 
-  function check(res) {
-    t.doesNotThrow(function() {
-      assert.ok(res.length > 10, 'returns several results')
-      res.forEach(each)
+  function check(results) {
+    t.doesNotThrow(function () {
+      assert.ok(results.length > 10, 'returns several results')
+      results.forEach(each)
     }, message)
   }
 

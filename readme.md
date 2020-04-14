@@ -43,19 +43,19 @@ Yields:
 
 ```js
 [
-  {word: 'vehicle', rating: 35, parts: ['noun'], topics: ['carriage', 'transport']},
-  {word: 'motorcar', rating: 30, parts: ['noun', 'adjective'], topics: ['vehicle']},
-  {word: 'automobile', rating: 26, parts: ['noun', 'adjective'], topics: ['vehicle', 'transport']},
-  {word: 'auto', rating: 20, parts: ['noun', 'adjective'], topics: ['transport', 'technology']},
-  {word: 'railcar', rating: 20, parts: ['noun'], topics: []},
+  {word: 'vehicle', parts: ['noun'], topics: ['carriage', 'transport']},
+  {word: 'motorcar', parts: ['noun', 'adjective'], topics: ['vehicle']},
+  {word: 'automobile', parts: ['noun', 'adjective'], topics: ['vehicle', 'transport']},
+  {word: 'auto', parts: ['noun', 'adjective'], topics: ['transport', 'technology']},
+  {word: 'railcar', parts: ['noun'], topics: []},
   // …and 45 more entries
 ]
 [
-  {word: 'happy', rating: 27, parts: ['adjective'], topics: ['characteristic', 'decency']},
-  {word: 'lighthearted', rating: 19, parts: ['adjective'], topics: ['characteristic', 'happiness']},
-  {word: 'joyful', rating: 18, parts: ['adjective'], topics: ['characteristic', 'happiness']},
-  {word: 'upbeat', rating: 18, parts: ['adjective'], topics: ['characteristic', 'happiness']},
-  {word: 'joyous', rating: 12, parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'happy', parts: ['adjective'], topics: ['characteristic', 'decency']},
+  {word: 'lighthearted', parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'joyful', parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'upbeat', parts: ['adjective'], topics: ['characteristic', 'happiness']},
+  {word: 'joyous', parts: ['adjective'], topics: ['characteristic', 'happiness']},
   // …and 45 more entries
 ]
 
@@ -92,7 +92,6 @@ Up to 50 entries are found by `powerthesaurus-api`
 Object representing a related word, with the following fields:
 
 *   `word` (`string`)
-*   `rating` (`number`) — Crowdsourced integer representing whether this entry
     does indeed relate to the looked up word
 *   `parts` (`string[]`) — List of parts of speech of this entry.
     Can include `'adjective'`, `'adverb'`, `'conjunction'`, `'expression'`,

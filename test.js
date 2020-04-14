@@ -52,7 +52,6 @@ function checkResults(t, message) {
   function each(d) {
     var word = d.word
     assert.ok(typeof word === 'string' && word.length, '`word` is a string')
-    assert.ok(typeof d.rating === 'number', '`' + word + '.rating` is a number')
     assert.ok(Array.isArray(d.parts), '`' + word + '.parts` is an array')
     assert.ok(Array.isArray(d.topics), '`' + word + '.topics` is an array')
   }

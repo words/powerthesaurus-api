@@ -3,9 +3,11 @@ var unified = require('unified')
 var parse = require('rehype-parse')
 var $ = require('hast-util-select')
 var toString = require('hast-util-to-string')
-var randomAgent = require('random-fake-useragent').getRandom
 
 module.exports = lookup
+
+var agent =
+  'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_4) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36'
 
 var own = {}.hasOwnProperty
 var base = 'https://www.powerthesaurus.org'
@@ -29,6 +31,7 @@ var shortPartToPart = {
   'idi.': 'idiom',
   'int.': 'interjection',
   'n.': 'noun',
+  'phr.': 'phrase',
   'phr. v.': 'phrasal verb',
   'pr.': 'pronoun',
   'prep.': 'preposition',
@@ -55,7 +58,7 @@ function lookup(word, kind, callback) {
     }
 
     fetch(base + '/' + encodeURIComponent(word) + '/' + kind, {
-      headers: {'user-agent': randomAgent()}
+      headers: {'user-agent': agent}
     })
       .then(onresponse)
       .then(onbody, done)
@@ -66,7 +69,7 @@ function lookup(word, kind, callback) {
 
     function onbody(body) {
       var tree = processor.parse(body)
-      done(null, $.selectAll('.pt-thesaurus-card', tree).map(each))
+      done(null, $.selectAll('main .k5_k6 ', tree).map(each))
     }
 
     function done(err, results) {
@@ -82,17 +85,15 @@ function lookup(word, kind, callback) {
   }
 
   function each(node) {
-    var word = serialize($.select('.link--term', node))
-    var rating = serialize($.select('.pt-list-rating__counter', node))
-    var topics = $.selectAll('.link--topic', node).map(serialize)
-    var parts = $.selectAll('.link--part', node).map(part).filter(Boolean)
-
-    return {word, rating: parseInt(rating, 10), parts, topics}
+    var links = $.selectAll('a', node)
+    var serialized = links.map(serialize)
+    var word = serialized.shift()
+    var topics = serialized.filter((d) => !/\.$/.test(d))
+    var parts = serialized.filter((d) => /\.$/.test(d)).map(part)
+    return {word, parts, topics}
   }
 
-  function part(node) {
-    var value = serialize(node)
-
+  function part(value) {
     /* istanbul ignore if - this may happen in the future if they add more values */
     if (!own.call(shortPartToPart, value)) {
       console.warn('powerthesaurus: could not map `%s` to part', value)

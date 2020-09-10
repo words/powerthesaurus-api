@@ -1,6 +1,6 @@
 {
   "name": "powerthesaurus-api",
-  "version": "2.0.2",
+  "version": "2.0.3",
   "description": "Look up English synonyms, antonyms, etc using powerthesaurus.org",
   "license": "MIT",
   "keywords": [

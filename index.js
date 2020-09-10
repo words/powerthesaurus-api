@@ -69,7 +69,7 @@ function lookup(word, kind, callback) {
 
     function onbody(body) {
       var tree = processor.parse(body)
-      done(null, $.selectAll('main .k5_k6 ', tree).map(each))
+      done(null, $.selectAll('main .k3_b', tree).map(each))
     }
 
     function done(err, results) {
